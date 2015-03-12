@@ -745,7 +745,7 @@ class RobotUtility:
       sonar_reading = self.interface.getSensorValue(params.PORT_ULTRASONIC)[0]
       environment_data_buffer.append([relative_head_angle,sonar_reading]) #append to data buffer for store
       #print "My head is in :" + str(relative_head_angle) + "with deepth" + str(sonar_reading) 
-      time.sleep(0.04)
+      #time.sleep(0.04)
       pass
 
     #print environment_data_buffer for DEBUG
