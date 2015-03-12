@@ -31,8 +31,8 @@ def main():
   '''data should be saved'''
   print environment_buffer
   '''santitize by threashhold'''
-  threashold_min = 59.5
-  threashold_max = 7
+  threashold_min = 57.5
+  threashold_max = 62.5
   santitized_buffer = []
   for data in environment_buffer :
       angle = data[0]
@@ -41,7 +41,18 @@ def main():
           santitized_buffer.append([angle,depth])
   print "santitized_buffer = " + str(santitized_buffer)
 
+# #v2 
+#   angle_arr = []
+#   for data in santitized_buffer:
+#       angle_arr.append(data[0])
+#   angle_avg = sum(angle_arr) / len(angle_arr)
+#   target_angle = - angle_avg
+#   print target_angle
+#   robot.rotate(target_angle)
+# #v2 end
 
+
+#v1
   depth_arr = []
   min_angle_arr = []
   for data in santitized_buffer:
@@ -60,7 +71,25 @@ def main():
    target_angle = target_angle + c 
    print "target angle = " + str(target_angle)
    robot.rotate(target_angle)
+#v1 end
 
+   #identification process start
+   robot.force_move(35) 
+   robot.turn_head_to_angle_ed(pi/2) #turn right first ! 
+   left_sonar_reading = robot.read_sensor_ed()
+   print "left sonar: " + str(left_sonar_reading)
+   robot.turn_head_to_angle_ed(-pi) #then turn full left
+   right_sonar_reading = robot.read_sensor_ed()
+   print "right sonar: " + str(right_sonar_reading)
+   robot.reset_head_ed(abs_head_angle,True)
+   
+   #decide which location
+   if left_sonar_reading > 40 and right_sonar_reading > 40 : 
+       print "I AM IN POINT !!!! 2 <MIDDLE>!!!!"
+   elif right_sonar_reading > left_sonar_reading :
+    print "I AM IN POINT !!!! 1 <RIGHT>!!!!"
+   elif left_sonar_reading > right_sonar_reading :
+    print "I AM IN POINT !!!! 3 <LEFT>!!!!"
 
 
 
@@ -118,6 +147,8 @@ def main():
 
 if __name__ == "__main__":
   main()
+
+
 
 
 
